@@ -20,64 +20,64 @@ class MultipleImages extends CI_Controller {
 		$image_array = array();
 		foreach ($data as $row) {
 			if (sizeof($data) == 1) {
-				$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-											  	  'filename'	=> $row->filename);
+				$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+											  	  "filename"	=> $row->filename);
 
-				$title_array[$loop_title] = array('id_title' 	=> $row->id_title, 
-											  	  'name' 		=> $row->name,
-											  	  'list_image' 	=> $image_array);
+				$title_array[$loop_title] = array("id_title" 	=> $row->id_title, 
+											  	  "name" 		=> $row->name,
+											  	  "list_image" 	=> $image_array);
 			} else {
 				if ($loop < sizeof($data)-1) {
 					if ($loop == 0) {
 						$temp_id_title = $row->id_title;
 						$temp_name = $row->name;
-						$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-														  'filename'	=> $row->filename);
+						$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+														  "filename"	=> $row->filename);
 						$loop_image++;
 					} else {
 						if ($temp_id_title == $row->id_title) {
-							$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-														  	  'filename'	=> $row->filename);
+							$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+														  	  "filename"	=> $row->filename);
 							$loop_image++;
 						} else {
-							$title_array[$loop_title] = array('id_title' 	=> $temp_id_title, 
-														  	  'name' 		=> $temp_name,
-														  	  'list_image' 	=> $image_array);
+							$title_array[$loop_title] = array("id_title" 	=> $temp_id_title, 
+														  	  "name" 		=> $temp_name,
+														  	  "list_image" 	=> $image_array);
 
 							$temp_id_title = $row->id_title;
 							$temp_name = $row->name;
 							$image_array = array();
 							$loop_image = 0;
-							$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-														  	  'filename'	=> $row->filename);
+							$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+														  	  "filename"	=> $row->filename);
 							$loop_image++;
 							$loop_title++;
 						}
 					}	
 				} else {
 					if ($temp_id_title == $row->id_title) {
-						$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-													  	  'filename'	=> $row->filename);
+						$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+													  	  "filename"	=> $row->filename);
 
-						$title_array[$loop_title] = array('id_title' 	=> $temp_id_title, 
-													  	  'name' 		=> $temp_name,
-													  	  'list_image' 	=> $image_array);
+						$title_array[$loop_title] = array("id_title" 	=> $temp_id_title, 
+													  	  "name" 		=> $temp_name,
+													  	  "list_image" 	=> $image_array);
 					} else {
-						$title_array[$loop_title] = array('id_title' 	=> $temp_id_title, 
-														  'name' 		=> $temp_name,
-														  'list_image' 	=> $image_array);
+						$title_array[$loop_title] = array("id_title" 	=> $temp_id_title, 
+														  "name" 		=> $temp_name,
+														  "list_image" 	=> $image_array);
 
 						$loop_title++;
 						$temp_id_title = $row->id_title;
 						$temp_name = $row->name;
 						$image_array = array();
 						$loop_image = 0;
-						$image_array[$loop_image] = array('id_image'	=> $row->id_image, 
-													  	  'filename'	=> $row->filename);
+						$image_array[$loop_image] = array("id_image"	=> $row->id_image, 
+													  	  "filename"	=> $row->filename);
 
-						$title_array[$loop_title] = array('id_title' 	=> $temp_id_title, 
-													  	  'name' 		=> $temp_name,
-													  	  'list_image' 	=> $image_array);
+						$title_array[$loop_title] = array("id_title" 	=> $temp_id_title, 
+													  	  "name" 		=> $temp_name,
+													  	  "list_image" 	=> $image_array);
 						
 					}
 				}
@@ -127,10 +127,10 @@ class MultipleImages extends CI_Controller {
 		$id_title = $this->MultipleImages_model->addTitle($name);
 		if($id_title > 0) {
 			$path = "../api_upload_multiple_images/assets/images/";
-			if (!empty($_FILES['image']['name'])) {
-				$image_count = count($_FILES['image']['name']);
+			if (!empty($_FILES["image"]["name"])) {
+				$image_count = count($_FILES["image"]["name"]);
 				for($i=0; $i<$image_count; $i++) {
-					$filename = $_FILES['image']['name'][$i];
+					$filename = $_FILES["image"]["name"][$i];
 					$mod_filename = date("YmdHis")."_".$i.".".strtolower($this->getExtension($filename));
 					$target_file = $path.$mod_filename;
 					$valid_formats = array("jpg", "png", "gif", "bmp","jpeg","PNG","JPG","JPEG","GIF","BMP");
@@ -138,7 +138,7 @@ class MultipleImages extends CI_Controller {
 					list($txt, $extension) = explode(".", $filename);
 					$extension = strtolower($this->getExtension($filename));
 					if(in_array($extension,$valid_formats)) {
-						move_uploaded_file($_FILES['image']['tmp_name'][$i], $target_file);
+						move_uploaded_file($_FILES["image"]["tmp_name"][$i], $target_file);
 						$width_array = 800;
 						$this->compressImage($extension, $target_file, $path, $mod_filename, $width_array);
 						$this->load->model("MultipleImages_model");
